@@ -1,0 +1,90 @@
+//sjf--shorest job first non preemptive
+//criteria:burst time
+import java.util.*;
+class Kommi
+{
+	public static void get_ct(int at[],int bt[],int ct[])
+	{
+       int time=0;
+       int i=0;
+       int index=-1;
+       int burst=Integer.MAX_VALUE;
+       int bt_copy[]=new int[bt.length];
+       int at_copy[]=new int[at.length];
+       for(int j=0;j<at.length;j++)
+       {
+       	at_copy[j]=at[j];
+       }
+       for(int j=0;j<at.length;j++)
+       {
+       	bt_copy[j]=bt[j];
+       }
+       while(i<at.length)
+       {
+          for(int j=0;j<at.length;j++)
+          {
+          	if(at_copy[j]<=time && bt_copy[j]<burst)
+          	{
+               index=j;
+               burst=bt_copy[j];
+          	}
+          }
+          if(index!=-1)
+          {
+          	time=time+burst;
+          	ct[index]=time;
+
+            i++;
+            at_copy[index]=Integer.MAX_VALUE;
+            bt_copy[index]=Integer.MAX_VALUE;
+            burst=Integer.MAX_VALUE;
+          }
+          else
+          {
+          	time++;
+          }
+       }
+	}
+	public static void get_tat(int at[],int ct[],int tat[])
+	{
+       for(int i=0;i<at.length;i++)
+       {
+         tat[i]=ct[i]-at[i];
+       }
+	}
+	public static void get_wt(int bt[],int tat[],int wt[])
+	{
+       for(int i=0;i<bt.length;i++)
+       {
+         wt[i]=tat[i]-bt[i];
+       }
+	}
+	public static void main(String args[])
+	{
+		int at[]={1,2,1,4};
+		int bt[]={3,4,2,4};
+		int ct[]=new int[at.length];
+		int tat[]=new int[at.length];
+		int wt[]=new int[at.length];
+		get_ct(at,bt,ct);
+		get_tat(at,ct,tat);
+		get_wt(bt,tat,wt);
+
+		int total_wt=0;
+		System.out.println("cts");
+		for(int i=0;i<wt.length;i++)
+		{
+			
+			total_wt=total_wt+wt[i];
+		}
+		int total_tat=0;
+		for(int i=0;i<tat.length;i++)
+		{
+			total_tat=total_tat+tat[i];
+		} 
+		System.out.println("average tat is: "+((float)total_tat/(float)at.length));
+		System.out.println("average wt is: "+((float)total_wt/(float)at.length));
+
+		
+	}
+}
