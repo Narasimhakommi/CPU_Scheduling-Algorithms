@@ -1,0 +1,102 @@
+//round robin algorithm
+//mode:preemptive
+//criteria:time quantum
+import java.util.*;
+class Kommi
+{
+	public static void get_wt(int at[],int bt[],int wt[],int q)
+	{
+       int bt_copy[]=new int[at.length];
+       int k=0;
+       for(int j=0;j<at.length;j++)
+       {
+       	 bt_copy[j]=bt[j];
+       }
+       int time=0;
+       int index=-1;
+       LinkedList<Integer> ready=new LinkedList<>();
+       for(int i=0;i<at.length;i++)
+       {
+         if(at[i]<=time)
+         {
+         	ready.add(i);
+         }
+       }
+       while(k<at.length)
+       {
+           
+           if(ready.size()==0)
+           {
+             time++;
+             continue;
+           }
+           else
+           {
+              index=ready.removeFirst();
+              if (bt_copy[index]==1) 
+              {
+              	bt_copy[index]=bt_copy[index]-1;
+              	 time=time+1;
+              	 wt[index]=time-at[index]-bt[index];
+              	 k++;
+                for(int i=(index+1);i<at.length;i++)
+                {
+                 if(at[i]<=time && bt_copy[i]>0 && !ready.contains(i))
+                 {
+         	       ready.add(i);
+                 }
+                }
+              }
+              else
+              {
+                bt_copy[index]=bt_copy[index]-2;
+                 time=time+2;
+                for(int i=(index+1);i<at.length;i++)
+                {
+                 if(at[i]<=time && bt_copy[i]>0 && !ready.contains(i))
+                 {
+         	       ready.add(i);
+                 }
+               }
+               if(bt_copy[index]==0)
+               {
+                   wt[index]=time-at[index]-bt[index];
+                   k++;
+               }
+               else
+               {
+                  ready.add(index);
+               }
+              }
+           }
+
+       }
+	}
+	public static void main(String args[])
+	{
+		int at[]={0,1,2,4};
+		int bt[]={5,4,2,1};
+		int ct[]=new int[at.length];
+		int tat[]=new int[at.length];
+		int wt[]=new int[at.length];
+		int q=2;
+		get_wt(at,bt,wt,q);
+
+		int total_wt=0;
+		int total_tat=0;
+		for(int i=0;i<wt.length;i++)
+		{
+			total_wt=total_wt+wt[i];
+		}
+		for(int i=0;i<wt.length;i++)
+		{
+			tat[i]=wt[i]+bt[i];
+		}
+		for(int i=0;i<wt.length;i++)
+		{
+			total_tat=total_tat+tat[i];
+		}
+		 System.out.println("average tat is: "+((float)total_tat/(float)at.length));
+		 System.out.println("average wt is: "+((float)total_wt/(float)at.length));
+	}
+}
