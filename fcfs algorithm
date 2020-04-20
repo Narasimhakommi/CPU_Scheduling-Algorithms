@@ -1,0 +1,62 @@
+//first come first serve algorithm of cpu scheduling
+import java.util.*;
+class Kommi
+{
+	public static void get_ct(int at[],int bt[],int ct[])
+	{
+       int time=0;
+       int i=0;
+       while(i<at.length)
+       {
+       	 if(at[i]<=time)
+       	 {
+       	 	time=time+bt[i];
+       	 	ct[i]=time;
+       	 	i++;
+       	 }
+       	 else
+       	 {
+       	 	time++;
+       	 }
+       }
+	}
+	public static void get_tat(int at[],int ct[],int tat[])
+	{
+       for(int i=0;i<at.length;i++)
+       {
+         tat[i]=ct[i]-at[i];
+       }
+	}
+	public static void get_wt(int bt[],int tat[],int wt[])
+	{
+       for(int i=0;i<bt.length;i++)
+       {
+         wt[i]=tat[i]-bt[i];
+       }
+	}
+	public static void main(String args[])
+	{
+		int at[]={0,1,5,6};
+		int bt[]={2,2,3,4};
+		int ct[]=new int[at.length];
+		int tat[]=new int[at.length];
+		int wt[]=new int[at.length];
+		get_ct(at,bt,ct);
+		get_tat(at,ct,tat);
+		get_wt(bt,tat,wt);
+
+		int total_wt=0;
+		for(int i=0;i<wt.length;i++)
+		{
+			total_wt=total_wt+wt[i];
+		}
+		int total_tat=0;
+		for(int i=0;i<tat.length;i++)
+		{
+			total_tat=total_tat+tat[i];
+		}
+
+		System.out.println("average tat is: "+((float)total_tat/(float)at.length));
+		System.out.println("average wt is: "+((float)total_wt/(float)at.length));
+	}
+}
