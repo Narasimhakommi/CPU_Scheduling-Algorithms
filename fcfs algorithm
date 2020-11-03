@@ -1,4 +1,5 @@
 //first come first serve algorithm of cpu scheduling
+//hello narasimha from fcfs
 import java.util.*;
 class Kommi
 {
